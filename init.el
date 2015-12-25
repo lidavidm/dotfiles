@@ -42,6 +42,19 @@
 (global-whitespace-mode 1)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+;; fixmes
+
+(defun font-lock-comment-annotations ()
+  "Highlight a bunch of well known comment annotations.
+
+This functions should be added to the hooks of major modes for programming."
+  (font-lock-add-keywords
+   nil '(("\\<\\(FIX\\(ME\\)?\\|TODO\\|OPTIMIZE\\|HACK\\|REFACTOR\\|XXX\\):"
+          1 font-lock-warning-face t))))
+
+(add-hook 'prog-mode-hook 'font-lock-comment-annotations)
+
+
 ;; evil
 (require 'evil)
 (evil-mode 1)
