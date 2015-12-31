@@ -9,6 +9,8 @@
       package-archives)
 (package-initialize)
 
+(add-to-list 'load-path "~/.emacs.d/lisp")
+
 ;; GUI settings
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -58,6 +60,12 @@ This functions should be added to the hooks of major modes for programming."
 ;; evil
 (require 'evil)
 (evil-mode 1)
+
+(require 'evil-little-word)
+(define-key evil-motion-state-map (kbd "w") 'evil-forward-little-word-begin)
+(define-key evil-motion-state-map (kbd "glw") 'evil-forward-word-begin)
+(define-key evil-motion-state-map (kbd "b") 'evil-backward-little-word-begin)
+(define-key evil-motion-state-map (kbd "glb") 'evil-backward-word-begin)
 
 (defun comment-or-uncomment-region-or-line ()
     "Comments or uncomments the region or the current line if there's no active region."
