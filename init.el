@@ -96,6 +96,8 @@ This functions should be added to the hooks of major modes for programming."
 
 ;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
+;;; needed for flychcek to check whether the crate is binary or library
+(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
 
 ;; company-mode
 (add-hook 'after-init-hook 'global-company-mode)
