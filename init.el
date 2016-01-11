@@ -17,7 +17,7 @@
 (setq frame-title-format "%b - emacs")
 (global-linum-mode 1)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(set-frame-font "Iosevka 11")
+(set-frame-font (font-spec :family "Input" :size 10.5))
 
 ;; Powerline
 (require 'powerline)
