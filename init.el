@@ -60,6 +60,21 @@ This functions should be added to the hooks of major modes for programming."
 ;; evil
 (require 'evil)
 (evil-mode 1)
+(setq-default evil-cross-lines t)
+;; http://stackoverflow.com/a/32660401/262727
+(defun evil-next-line--check-visual-line-mode (orig-fun &rest args)
+  (if visual-line-mode
+      (apply 'evil-next-visual-line args)
+    (apply orig-fun args)))
+
+(advice-add 'evil-next-line :around 'evil-next-line--check-visual-line-mode)
+
+(defun evil-previous-line--check-visual-line-mode (orig-fun &rest args)
+  (if visual-line-mode
+      (apply 'evil-previous-visual-line args)
+    (apply orig-fun args)))
+
+(advice-add 'evil-previous-line :around 'evil-previous-line--check-visual-line-mode)
 
 (require 'evil-little-word)
 (define-key evil-motion-state-map (kbd "w") 'evil-forward-little-word-begin)
@@ -111,7 +126,8 @@ This functions should be added to the hooks of major modes for programming."
  '(custom-enabled-themes (quote (cyberpunk)))
  '(custom-safe-themes
    (quote
-    ("561ba4316ba42fe75bc07a907647caa55fc883749ee4f8f280a29516525fc9e8" "a81bc918eceaee124247648fc9682caddd713897d7fd1398856a5b61a592cb62" default))))
+    ("561ba4316ba42fe75bc07a907647caa55fc883749ee4f8f280a29516525fc9e8" "a81bc918eceaee124247648fc9682caddd713897d7fd1398856a5b61a592cb62" default)))
+ '(js2-strict-trailing-comma-warning nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
