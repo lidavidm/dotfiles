@@ -117,6 +117,18 @@ This functions should be added to the hooks of major modes for programming."
 ;; company-mode
 (add-hook 'after-init-hook 'global-company-mode)
 
+(custom-set-variables
+ '(whitespace-display-mappings
+   '(
+     ;; Don't visualize spaces/newlines
+     ;; (space-mark 32 [183]
+     ;;  [46])
+     (space-mark 160 [164]
+      [95])
+     ;; (newline-mark 10 [36 10])
+     (tab-mark 9 [187 9]
+      [92 9]))))
+
 ;; custom variables
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
