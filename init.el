@@ -19,6 +19,16 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (set-frame-font (font-spec :family "Input" :size 10.5))
 
+(defun set-80-editing-columns ()
+  "Set the right window margin so the editable space is only 80 columns."
+  (interactive)
+  (set-window-margins nil 0 (max (- (window-width) 80) 0))
+  )
+
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (setq right-margin-width (max (- (window-width) 80) 0))))
+
 ;; Powerline
 (require 'powerline)
 (powerline-center-evil-theme)
@@ -41,7 +51,7 @@
 (electric-pair-mode 1)
 
 ;; whitespace
-(global-whitespace-mode 1)
+;; (global-whitespace-mode 1)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; fixmes
@@ -117,19 +127,19 @@ This functions should be added to the hooks of major modes for programming."
 ;; company-mode
 (add-hook 'after-init-hook 'global-company-mode)
 
-(custom-set-variables
- '(whitespace-display-mappings
-   '(
-     ;; Don't visualize spaces/newlines
-     ;; (space-mark 32 [183]
-     ;;  [46])
-     (space-mark 160 [164]
-      [95])
-     ;; (newline-mark 10 [36 10])
-     (tab-mark 9 [187 9]
-      [92 9]))))
+;; typescript: tide
 
-;; custom variables
+(add-hook 'typescript-mode-hook
+          (lambda ()
+            (tide-setup)
+            (flycheck-mode +1)
+            (setq flycheck-check-syntax-automatically '(save mode-enabled))
+            (eldoc-mode +1)
+            (company-mode-on)))
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -138,8 +148,12 @@ This functions should be added to the hooks of major modes for programming."
  '(custom-enabled-themes (quote (cyberpunk)))
  '(custom-safe-themes
    (quote
-    ("561ba4316ba42fe75bc07a907647caa55fc883749ee4f8f280a29516525fc9e8" "a81bc918eceaee124247648fc9682caddd713897d7fd1398856a5b61a592cb62" default)))
+    ("71ecffba18621354a1be303687f33b84788e13f40141580fa81e7840752d31bf" "561ba4316ba42fe75bc07a907647caa55fc883749ee4f8f280a29516525fc9e8" "a81bc918eceaee124247648fc9682caddd713897d7fd1398856a5b61a592cb62" default)))
+ '(doc-view-continuous t)
  '(js2-strict-trailing-comma-warning nil))
+
+;; custom variables
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
