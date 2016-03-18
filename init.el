@@ -31,6 +31,8 @@
 ;;             (set-80-editing-columns)
 ;;             ))
 
+(global-auto-revert-mode 1)
+
 ;; Powerline
 (require 'powerline)
 (powerline-center-evil-theme)
@@ -141,6 +143,16 @@ This functions should be added to the hooks of major modes for programming."
 
 ;; aligns annotation to the right hand side
 (setq company-tooltip-align-annotations t)
+
+;; haskell-mode
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+
+;; latex-mode
+
+
+(add-hook 'LaTeX-mode-hook (lambda ()
+                             (flyspell-mode 1)
+                             (visual-line-mode 1)))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
