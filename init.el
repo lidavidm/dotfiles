@@ -19,15 +19,17 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (set-frame-font (font-spec :family "Input" :size 10.5))
 
-(defun set-80-editing-columns ()
-  "Set the right window margin so the editable space is only 80 columns."
-  (interactive)
-  (set-window-margins nil 0 (max (- (window-width) 80) 0))
-  )
+;; (defun set-80-editing-columns ()
+;;   "Set the right window margin so the editable space is only 80 columns."
+;;   (interactive)
+;;   (setq right-margin-width (max (- (window-width) 80) 0))
+;;   (set-window-buffer nil (current-buffer))
+;;   )
 
-(add-hook 'prog-mode-hook
-          (lambda ()
-            (setq right-margin-width (max (- (window-width) 80) 0))))
+;; (add-hook 'prog-mode-hook
+;;           (lambda ()
+;;             (set-80-editing-columns)
+;;             ))
 
 ;; Powerline
 (require 'powerline)
