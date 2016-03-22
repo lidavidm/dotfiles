@@ -125,9 +125,9 @@ This functions should be added to the hooks of major modes for programming."
 (require 'evil-surround)
 (global-evil-surround-mode 1)
 
-(require 'evil-mc)
-(global-evil-mc-mode 1)
-(evil-define-key 'normal map (kbd "C-p") 'evil-paste-pop)
+;; (require 'evil-mc)
+;; (global-evil-mc-mode 1)
+;; (evil-define-key 'normal map (kbd "C-p") 'evil-paste-pop)
 
 (evil-escape-mode 1)
 (setq-default evil-escape-key-sequence "fd")
