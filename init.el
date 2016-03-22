@@ -144,6 +144,12 @@ This functions should be added to the hooks of major modes for programming."
 
 ;; company-mode
 (add-hook 'after-init-hook 'global-company-mode)
+(require 'company-racer)
+
+(with-eval-after-load 'company
+  (add-to-list 'company-backends 'company-racer))
+(unless (getenv "RUST_SRC_PATH")
+  (setenv "RUST_SRC_PATH" (expand-file-name "~/Downloads/rustc-nightly/src")))
 
 ;; typescript: tide
 
@@ -173,6 +179,7 @@ This functions should be added to the hooks of major modes for programming."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(company-racer-executable "~/.cargo/bin/racer")
  '(custom-enabled-themes (quote (cyberpunk)))
  '(custom-safe-themes
    (quote
