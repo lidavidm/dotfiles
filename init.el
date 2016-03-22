@@ -90,6 +90,20 @@ This functions should be added to the hooks of major modes for programming."
 
 (advice-add 'evil-previous-line :around 'evil-previous-line--check-visual-line-mode)
 
+(defun evil-beginning-of-line--check-visual-line-mode (orig-fun &rest args)
+  (if visual-line-mode
+      (apply 'evil-beginning-of-visual-line args)
+    (apply orig-fun args)))
+
+(advice-add 'evil-beginning-of-line :around 'evil-beginning-of-line--check-visual-line-mode)
+
+(defun evil-end-of-line--check-visual-line-mode (orig-fun &rest args)
+  (if visual-line-mode
+      (apply 'evil-end-of-visual-line args)
+    (apply orig-fun args)))
+
+(advice-add 'evil-end-of-line :around 'evil-end-of-line--check-visual-line-mode)
+
 (require 'evil-little-word)
 (define-key evil-motion-state-map (kbd "w") 'evil-forward-little-word-begin)
 (define-key evil-motion-state-map (kbd "glw") 'evil-forward-word-begin)
