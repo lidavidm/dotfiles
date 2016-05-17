@@ -2,6 +2,7 @@
 ;;; Commentary:
 
 ;;; Code:
+
 (require 'package)
 (push '("marmalade" . "http://marmalade-repo.org/packages/")
       package-archives )
@@ -18,6 +19,8 @@
 (global-linum-mode 1)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (set-frame-font (font-spec :family "Input" :size 10.5))
+(if (display-graphic-p)
+    (load-theme 'cyberpunk t))
 
 ;; (defun set-80-editing-columns ()
 ;;   "Set the right window margin so the editable space is only 80 columns."
@@ -43,6 +46,7 @@
 ;; ido
 (require 'ido)
 (ido-mode t)
+(setq ido-ignore-extensions t)
 
 (require 'ido-vertical-mode)
 (ido-vertical-mode 1)
@@ -76,33 +80,20 @@ This functions should be added to the hooks of major modes for programming."
 (evil-mode 1)
 (setq-default evil-cross-lines t)
 ;; http://stackoverflow.com/a/32660401/262727
-(defun evil-next-line--check-visual-line-mode (orig-fun &rest args)
-  (if visual-line-mode
-      (apply 'evil-next-visual-line args)
-    (apply orig-fun args)))
 
-(advice-add 'evil-next-line :around 'evil-next-line--check-visual-line-mode)
+(eval-when-compile (require 'cl))
+(defun evil--check-visual-line-mode (visual-fun)
+  "Use VISUAL-FUN if in 'visual-line-mode', or ORIG-FUN otherwise (optional ARGS)."
+  (lexical-let ((visual-fun visual-fun))
+    #'(lambda(orig-fun &rest args)
+        (if visual-line-mode
+            (apply visual-fun args)
+          (apply orig-fun args)))))
 
-(defun evil-previous-line--check-visual-line-mode (orig-fun &rest args)
-  (if visual-line-mode
-      (apply 'evil-previous-visual-line args)
-    (apply orig-fun args)))
-
-(advice-add 'evil-previous-line :around 'evil-previous-line--check-visual-line-mode)
-
-(defun evil-beginning-of-line--check-visual-line-mode (orig-fun &rest args)
-  (if visual-line-mode
-      (apply 'evil-beginning-of-visual-line args)
-    (apply orig-fun args)))
-
-(advice-add 'evil-beginning-of-line :around 'evil-beginning-of-line--check-visual-line-mode)
-
-(defun evil-end-of-line--check-visual-line-mode (orig-fun &rest args)
-  (if visual-line-mode
-      (apply 'evil-end-of-visual-line args)
-    (apply orig-fun args)))
-
-(advice-add 'evil-end-of-line :around 'evil-end-of-line--check-visual-line-mode)
+(advice-add 'evil-next-line :around (evil--check-visual-line-mode 'evil-next-visual-line))
+(advice-add 'evil-previous-line :around (evil--check-visual-line-mode 'evil-previous-visual-line))
+(advice-add 'evil-beginning-of-line :around (evil--check-visual-line-mode 'evil-beginning-of-visual-line))
+(advice-add 'evil-end-of-line :around (evil--check-visual-line-mode 'evil-end-of-visual-line))
 
 (require 'evil-little-word)
 (define-key evil-motion-state-map (kbd "w") 'evil-forward-little-word-begin)
@@ -151,6 +142,22 @@ This functions should be added to the hooks of major modes for programming."
 (unless (getenv "RUST_SRC_PATH")
   (setenv "RUST_SRC_PATH" (expand-file-name "~/Downloads/rustc-nightly/src")))
 
+;; javascript: js2
+
+(defun my/use-eslint-from-node-modules ()
+  "Use local NPM eslint when available."
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                        root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+
+(add-to-list 'auto-mode-alist `(,(rx ".js" string-end) . js2-mode))
+
 ;; typescript: tide
 
 (add-hook 'typescript-mode-hook
@@ -158,7 +165,6 @@ This functions should be added to the hooks of major modes for programming."
             (tide-setup)
             (flycheck-mode +1)
             (setq flycheck-check-syntax-automatically '(save mode-enabled))
-            (eldoc-mode +1)
             (company-mode-on)))
 
 ;; aligns annotation to the right hand side
@@ -180,11 +186,15 @@ This functions should be added to the hooks of major modes for programming."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(company-racer-executable "~/.cargo/bin/racer")
- '(custom-enabled-themes (quote (cyberpunk)))
+ '(completion-ignored-extensions
+   (quote
+    (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".log")))
  '(custom-safe-themes
    (quote
     ("71ecffba18621354a1be303687f33b84788e13f40141580fa81e7840752d31bf" "561ba4316ba42fe75bc07a907647caa55fc883749ee4f8f280a29516525fc9e8" "a81bc918eceaee124247648fc9682caddd713897d7fd1398856a5b61a592cb62" default)))
  '(doc-view-continuous t)
+ '(ido-auto-merge-work-directories-length -1)
+ '(js-indent-level 2)
  '(js2-strict-trailing-comma-warning nil))
 
 ;; custom variables
