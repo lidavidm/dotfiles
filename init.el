@@ -135,12 +135,12 @@ This functions should be added to the hooks of major modes for programming."
 
 ;; company-mode
 (add-hook 'after-init-hook 'global-company-mode)
-(require 'company-racer)
 
-(with-eval-after-load 'company
-  (add-to-list 'company-backends 'company-racer))
-(unless (getenv "RUST_SRC_PATH")
-  (setenv "RUST_SRC_PATH" (expand-file-name "~/Downloads/rustc-nightly/src")))
+;; rust
+(add-hook 'rust-mode-hook 'cargo-minor-mode)
+(add-hook 'rust-mode-hook '(lambda ()
+                             (racer-mode 1)
+                             (eldoc-mode 1)))
 
 ;; javascript: js2
 
@@ -194,8 +194,14 @@ This functions should be added to the hooks of major modes for programming."
     ("71ecffba18621354a1be303687f33b84788e13f40141580fa81e7840752d31bf" "561ba4316ba42fe75bc07a907647caa55fc883749ee4f8f280a29516525fc9e8" "a81bc918eceaee124247648fc9682caddd713897d7fd1398856a5b61a592cb62" default)))
  '(doc-view-continuous t)
  '(ido-auto-merge-work-directories-length -1)
- '(js-indent-level 2)
- '(js2-strict-trailing-comma-warning nil))
+ '(js-indent-level 4)
+ '(js2-strict-trailing-comma-warning nil)
+ '(package-selected-packages
+   (quote
+    (yaml-mode web-mode tuareg tide smex racket-mode racer powerline paredit multiple-cursors markdown-mode magit json-mode js2-mode ido-vertical-mode haskell-mode goto-last-change glsl-mode flycheck-rust flycheck-elm fill-column-indicator expand-region evil-vimish-fold evil-surround evil-rsi evil-mc evil-escape elm-yasnippets elm-mode deferred cyberpunk-theme cargo auctex alchemist)))
+ '(racer-cmd "/home/lidavidm/.cargo/bin/racer")
+ '(racer-rust-src-path
+   "/home/lidavidm/.multirust/toolchains/beta-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src"))
 
 ;; custom variables
 
