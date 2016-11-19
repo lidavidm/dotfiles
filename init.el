@@ -20,7 +20,8 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (set-frame-font (font-spec :family "Input" :size 10.5))
 (if (display-graphic-p)
-    (load-theme 'cyberpunk t))
+    (load-theme 'material t))
+(xterm-mouse-mode 1)
 
 ;; (defun set-80-editing-columns ()
 ;;   "Set the right window margin so the editable space is only 80 columns."
@@ -198,10 +199,8 @@ This functions should be added to the hooks of major modes for programming."
  '(js2-strict-trailing-comma-warning nil)
  '(package-selected-packages
    (quote
-    (yaml-mode web-mode tuareg tide smex racket-mode racer powerline paredit multiple-cursors markdown-mode magit json-mode js2-mode ido-vertical-mode haskell-mode goto-last-change glsl-mode flycheck-rust flycheck-elm fill-column-indicator expand-region evil-vimish-fold evil-surround evil-rsi evil-mc evil-escape elm-yasnippets elm-mode deferred cyberpunk-theme cargo auctex alchemist)))
- '(racer-cmd "/home/lidavidm/.cargo/bin/racer")
- '(racer-rust-src-path
-   "/home/lidavidm/.multirust/toolchains/beta-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src"))
+    (material-theme yaml-mode web-mode tuareg tide smex racket-mode racer powerline paredit multiple-cursors markdown-mode magit json-mode js2-mode ido-vertical-mode haskell-mode goto-last-change glsl-mode flycheck-rust flycheck-elm fill-column-indicator expand-region evil-vimish-fold evil-surround evil-rsi evil-mc evil-escape elm-yasnippets elm-mode deferred cyberpunk-theme cargo auctex alchemist)))
+ '(racer-cmd "/home/lidavidm/.cargo/bin/racer"))
 
 ;; custom variables
 
