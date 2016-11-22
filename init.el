@@ -113,6 +113,8 @@ This functions should be added to the hooks of major modes for programming."
 
 (define-key evil-normal-state-map (kbd ";") 'comment-or-uncomment-region-or-line)
 (define-key evil-visual-state-map (kbd ";") 'comment-or-uncomment-region-or-line)
+(define-key evil-insert-state-map (kbd "C-d") 'evil-delete-char)
+(define-key evil-insert-state-map (kbd "M-d") 'kill-word)
 
 (require 'evil-surround)
 (global-evil-surround-mode 1)
