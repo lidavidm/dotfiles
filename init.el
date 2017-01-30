@@ -183,6 +183,16 @@ This functions should be added to the hooks of major modes for programming."
                              (flyspell-mode 1)
                              (visual-line-mode 1)))
 
+;; go-mode
+
+(add-hook 'go-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook 'gofmt-before-save nil t)
+            (go-eldoc-setup)
+            (set (make-local-variable 'company-backends) '(company-go))
+            (company-mode)
+            ))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -196,13 +206,22 @@ This functions should be added to the hooks of major modes for programming."
    (quote
     ("71ecffba18621354a1be303687f33b84788e13f40141580fa81e7840752d31bf" "561ba4316ba42fe75bc07a907647caa55fc883749ee4f8f280a29516525fc9e8" "a81bc918eceaee124247648fc9682caddd713897d7fd1398856a5b61a592cb62" default)))
  '(doc-view-continuous t)
+ '(gofmt-command "goimports")
  '(ido-auto-merge-work-directories-length -1)
- '(js-indent-level 4)
+ '(jabber-account-list
+   (quote
+    (("david@genki.is"
+      (:password . "CWr2jexUWcvuzMyLLEhI")))))
+ '(js-indent-level 2)
+ '(js-switch-indent-offset 2)
  '(js2-strict-trailing-comma-warning nil)
  '(package-selected-packages
    (quote
-    (material-theme yaml-mode web-mode tuareg tide smex racket-mode racer powerline paredit multiple-cursors markdown-mode magit json-mode js2-mode ido-vertical-mode haskell-mode goto-last-change glsl-mode flycheck-rust flycheck-elm fill-column-indicator expand-region evil-vimish-fold evil-surround evil-rsi evil-mc evil-escape elm-yasnippets elm-mode deferred cyberpunk-theme cargo auctex alchemist)))
- '(racer-cmd "/home/lidavidm/.cargo/bin/racer"))
+    (company-go go-eldoc go-guru go-mode lua-mode company-racer material-theme yaml-mode web-mode tuareg tide smex racket-mode racer powerline paredit multiple-cursors markdown-mode magit json-mode js2-mode ido-vertical-mode haskell-mode goto-last-change glsl-mode flycheck-rust flycheck-elm fill-column-indicator expand-region evil-vimish-fold evil-surround evil-rsi evil-mc evil-escape elm-yasnippets elm-mode deferred cyberpunk-theme cargo auctex alchemist)))
+ '(racer-cmd "/home/lidavidm/.cargo/bin/racer")
+ '(racer-rust-src-path "$(rustc --print sysroot)/lib/rustlib/src/rust/src")
+ '(safe-local-variable-values (quote ((js2-basic-offset . 4) (js2-basic-offset 4))))
+ '(tide-tsserver-executable "node_modules/typescript/bin/tsserver"))
 
 ;; custom variables
 
