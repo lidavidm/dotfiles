@@ -58,8 +58,6 @@
 (require 'smex)
 (global-set-key (kbd "M-x") 'smex)
 
-(global-set-key (kbd "C-.") 'imenu-anywhere)
-
 ;; electric-pair
 (electric-pair-mode 1)
 
@@ -116,9 +114,11 @@ This functions should be added to the hooks of major modes for programming."
         (comment-or-uncomment-region beg end)))
 
 (define-key evil-normal-state-map (kbd ";") 'comment-or-uncomment-region-or-line)
+(define-key evil-normal-state-map (kbd "C-.") 'ido-imenu-anywhere)
 (define-key evil-visual-state-map (kbd ";") 'comment-or-uncomment-region-or-line)
 (define-key evil-insert-state-map (kbd "C-d") 'evil-delete-char)
 (define-key evil-insert-state-map (kbd "M-d") 'kill-word)
+(define-key evil-insert-state-map (kbd "C-.") 'ido-imenu-anywhere)
 
 (require 'evil-surround)
 (global-evil-surround-mode 1)
