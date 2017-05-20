@@ -40,6 +40,8 @@
 ;; Powerline
 (require 'powerline)
 (powerline-center-evil-theme)
+;; Fix issue with alt-tab not resetting colors
+(remove-hook 'focus-out-hook 'powerline-unset-selected-window)
 
 ;; Indentation
 (setq-default indent-tabs-mode nil)
