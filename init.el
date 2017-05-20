@@ -58,6 +58,8 @@
 (require 'smex)
 (global-set-key (kbd "M-x") 'smex)
 
+(global-set-key (kbd "C-.") 'imenu-anywhere)
+
 ;; electric-pair
 (electric-pair-mode 1)
 
