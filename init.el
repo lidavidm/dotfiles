@@ -19,9 +19,10 @@
 (global-linum-mode 1)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (set-frame-font (font-spec :family "Input" :size 10.5))
-(if (display-graphic-p)
-    (load-theme 'material t))
 (xterm-mouse-mode 1)
+
+(set-variable 'nord-comment-brightness 15)
+(load-theme 'nord t)
 
 ;; (defun set-80-editing-columns ()
 ;;   "Set the right window margin so the editable space is only 80 columns."
