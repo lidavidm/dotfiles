@@ -258,6 +258,14 @@ This functions should be added to the hooks of major modes for programming."
 (setq org-latex-listings t)
 ;; (add-to-list 'org-latex-packages-alist '("" "listings"))
 
+;; adaptive-wrap when available
+
+(when (fboundp 'adaptive-wrap-prefix-mode)
+  (defun my-activate-adaptive-wrap-prefix-mode ()
+    "Toggle `visual-line-mode' and `adaptive-wrap-prefix-mode' simultaneously."
+    (adaptive-wrap-prefix-mode (if visual-line-mode 1 -1)))
+  (add-hook 'visual-line-mode-hook 'my-activate-adaptive-wrap-prefix-mode))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
