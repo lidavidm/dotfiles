@@ -38,6 +38,9 @@
 
 (global-auto-revert-mode 1)
 
+;; ace-window
+(global-set-key (kbd "C-x o") 'ace-window)
+
 ;; Powerline
 (require 'powerline)
 (powerline-center-evil-theme)
