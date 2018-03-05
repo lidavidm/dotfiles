@@ -216,6 +216,48 @@ This functions should be added to the hooks of major modes for programming."
             (company-mode)
             ))
 
+;; Ocaml/Merlin
+
+(let ((opam-share (ignore-errors (car (process-lines "opam" "config" "var"
+   "share")))))
+      (when (and opam-share (file-directory-p opam-share))
+       ;; Register Merlin
+       (add-to-list 'load-path (expand-file-name "emacs/site-lisp" opam-share))
+       (autoload 'merlin-mode "merlin" nil t nil)
+       ;; Automatically start it in OCaml buffers
+       (add-hook 'tuareg-mode-hook 'merlin-mode t)
+       (add-hook 'caml-mode-hook 'merlin-mode t)
+       ;; Use opam switch to lookup ocamlmerlin binary
+       (setq merlin-command 'opam)))
+
+;; org-mode
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (org-indent-mode t)
+            (visual-line-mode t)
+            (adaptive-wrap-prefix-mode t)
+            (flyspell-mode t)
+            ))
+
+(org-babel-do-load-languages 'org-babel-load-languages '((latex . t)))
+
+(eval-after-load "ox-latex"
+
+  ;; update the list of LaTeX classes and associated header (encoding, etc.)
+  ;; and structure
+  '(add-to-list 'org-latex-classes
+                `("beamer"
+                  ,(concat "\\documentclass[presentation]{beamer}\n"
+                           "[DEFAULT-PACKAGES]"
+                           "[PACKAGES]"
+                           "[EXTRA]\n")
+                  ("\\section{%s}" . "\\section*{%s}")
+                  ("\\subsection{%s}" . "\\subsection*{%s}")
+                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+(setq org-latex-listings t)
+;; (add-to-list 'org-latex-packages-alist '("" "listings"))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
