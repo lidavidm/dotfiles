@@ -50,17 +50,28 @@
 ;; Indentation
 (setq-default indent-tabs-mode nil)
 
-;; ido
-(require 'ido)
-(ido-mode t)
-(setq ido-ignore-extensions t)
+;; ivy
 
-(require 'ido-vertical-mode)
-(ido-vertical-mode 1)
-(setq ido-vertical-define-keys 'C-n-and-C-p-only)
+(ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
 
-(require 'smex)
-(global-set-key (kbd "M-x") 'smex)
+(global-set-key "\C-s" 'swiper)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+(global-set-key (kbd "<f1> l") 'counsel-find-library)
+(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+(global-set-key (kbd "C-c k") 'counsel-ag)
+(define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+
+;;; make ivy like ido
+(define-key ivy-minibuffer-map (kbd "C-j") #'ivy-immediate-done)
+(define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
+
+(setq ivy-wrap 't)
 
 ;; electric-pair
 (electric-pair-mode 1)
@@ -119,6 +130,9 @@ This functions should be added to the hooks of major modes for programming."
 
 (define-key evil-normal-state-map (kbd ";") 'comment-or-uncomment-region-or-line)
 (define-key evil-normal-state-map (kbd "C-.") 'ido-imenu-anywhere)
+(define-key evil-normal-state-map (kbd "/") 'swiper)
+(define-key evil-normal-state-map (kbd "?") 'swiper)
+
 (define-key evil-visual-state-map (kbd ";") 'comment-or-uncomment-region-or-line)
 (define-key evil-insert-state-map (kbd "C-d") 'evil-delete-char)
 (define-key evil-insert-state-map (kbd "M-d") 'kill-word)
