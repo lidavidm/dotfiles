@@ -191,6 +191,7 @@ This functions should be added to the hooks of major modes for programming."
             (flycheck-mode +1)
             (setq flycheck-check-syntax-automatically '(save mode-enabled))
             (company-mode-on)))
+(add-to-list 'auto-mode-alist `(,(rx ".tsx" string-end) . web-mode))
 
 ;; aligns annotation to the right hand side
 (setq company-tooltip-align-annotations t)
