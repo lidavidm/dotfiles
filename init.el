@@ -38,6 +38,9 @@
 
 (global-auto-revert-mode 1)
 
+;; rainbow-delimiters
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+
 ;; ace-window
 (global-set-key (kbd "C-x o") 'ace-window)
 
