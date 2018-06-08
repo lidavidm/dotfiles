@@ -16,30 +16,30 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (setq frame-title-format "%b - emacs")
-(global-linum-mode 1)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (set-frame-font (font-spec :family "Input" :size 10.5))
 (xterm-mouse-mode 1)
 
-(set-variable 'nord-comment-brightness 15)
-(load-theme 'nord t)
+(set-variable 'nord-comment-brightness 20)
+(load-theme 'doom-one t)
+(doom-themes-visual-bell-config)
+(doom-themes-org-config)
 
-;; (defun set-80-editing-columns ()
-;;   "Set the right window margin so the editable space is only 80 columns."
-;;   (interactive)
-;;   (setq right-margin-width (max (- (window-width) 80) 0))
-;;   (set-window-buffer nil (current-buffer))
-;;   )
+(add-hook 'text-mode-hook
+          (lambda ()
+            (display-line-numbers-mode 1)
+            ))
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (display-line-numbers-mode 1)
+            ))
 
-;; (add-hook 'prog-mode-hook
-;;           (lambda ()
-;;             (set-80-editing-columns)
-;;             ))
 
 (global-auto-revert-mode 1)
 
-;; rainbow-delimiters
+;; Some minor modes
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 ;; ace-window
 (global-set-key (kbd "C-x o") 'ace-window)
@@ -290,7 +290,7 @@ This functions should be added to the hooks of major modes for programming."
     (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".log")))
  '(custom-safe-themes
    (quote
-    ("7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "4cbec5d41c8ca9742e7c31cc13d8d4d5a18bd3a0961c18eb56d69972bbcf3071" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "a2dd771a05705be2a6e6adb6ddbc7a27ebf49edab1dffdbefe243096becba7c9" "71ecffba18621354a1be303687f33b84788e13f40141580fa81e7840752d31bf" "561ba4316ba42fe75bc07a907647caa55fc883749ee4f8f280a29516525fc9e8" "a81bc918eceaee124247648fc9682caddd713897d7fd1398856a5b61a592cb62" default)))
+    ("ce3e6c12b48979ce89754884d913c7ecc8a7956543d8b09ef13abfab6af9aa35" "fe666e5ac37c2dfcf80074e88b9252c71a22b6f5d2f566df9a7aa4f9bea55ef8" "9d9fda57c476672acd8c6efeb9dc801abea906634575ad2c7688d055878e69d6" "1c082c9b84449e54af757bcae23617d11f563fc9f33a832a8a2813c4d7dfb652" "8f83397e58db2a094d534aef83bbecbeefa1fb473141e7504609dc07580b66af" "7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "4cbec5d41c8ca9742e7c31cc13d8d4d5a18bd3a0961c18eb56d69972bbcf3071" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "a2dd771a05705be2a6e6adb6ddbc7a27ebf49edab1dffdbefe243096becba7c9" "71ecffba18621354a1be303687f33b84788e13f40141580fa81e7840752d31bf" "561ba4316ba42fe75bc07a907647caa55fc883749ee4f8f280a29516525fc9e8" "a81bc918eceaee124247648fc9682caddd713897d7fd1398856a5b61a592cb62" default)))
  '(doc-view-continuous t)
  '(font-latex-fontify-sectioning 1.0)
  '(gofmt-command "goimports")
@@ -300,7 +300,8 @@ This functions should be added to the hooks of major modes for programming."
    (quote
     (("david@genki.is"
       (:password . "CWr2jexUWcvuzMyLLEhI")))))
- '(js2-strict-trailing-comma-warning nil)
+ '(js2-highlight-level 3)
+ '(js2-mode-assume-strict t)
  '(org-agenda-files nil)
  '(org-html-container-element "section")
  '(org-html-divs
@@ -315,9 +316,8 @@ This functions should be added to the hooks of major modes for programming."
  '(org-startup-folded nil)
  '(package-selected-packages
    (quote
-    (rainbow-delimiters nord-theme ace-window counsel ivy moe-theme ag imenu-anywhere org-ref htmlize ox-reveal color-theme-sanityinc-tomorrow white-theme org adaptive-wrap company-go go-eldoc go-guru go-mode lua-mode company-racer material-theme yaml-mode web-mode tuareg tide smex racket-mode racer powerline paredit multiple-cursors markdown-mode magit json-mode js2-mode ido-vertical-mode haskell-mode goto-last-change glsl-mode flycheck-rust flycheck-elm fill-column-indicator expand-region evil-vimish-fold evil-surround evil-rsi evil-mc evil-escape elm-yasnippets elm-mode deferred cyberpunk-theme cargo auctex alchemist)))
+    (doom-themes poet-theme js2-refactor org-bullets rainbow-delimiters nord-theme ace-window counsel ivy moe-theme ag imenu-anywhere org-ref htmlize ox-reveal color-theme-sanityinc-tomorrow white-theme adaptive-wrap company-go go-eldoc go-guru go-mode lua-mode company-racer material-theme yaml-mode web-mode tuareg tide smex racket-mode racer powerline paredit multiple-cursors markdown-mode magit json-mode ido-vertical-mode haskell-mode goto-last-change glsl-mode flycheck-rust flycheck-elm fill-column-indicator expand-region evil-vimish-fold evil-surround evil-rsi evil-mc evil-escape elm-yasnippets elm-mode deferred cyberpunk-theme cargo auctex alchemist)))
  '(racer-cmd "/home/lidavidm/.cargo/bin/racer")
- '(racer-rust-src-path "$(rustc --print sysroot)/lib/rustlib/src/rust/src")
  '(safe-local-variable-values
    (quote
     ((coq-prog-args "-emacs" "-I" "./cpdtlib/")
@@ -328,7 +328,9 @@ This functions should be added to the hooks of major modes for programming."
      (org-src-fontify-natively)
      (js2-basic-offset . 4)
      (js2-basic-offset 4))))
- '(tide-tsserver-executable "node_modules/typescript/bin/tsserver"))
+ '(tide-tsserver-executable "node_modules/typescript/bin/tsserver")
+ '(web-mode-script-padding 4)
+ '(web-mode-style-padding 4))
 
 ;; custom variables
 
